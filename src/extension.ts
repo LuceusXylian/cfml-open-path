@@ -30,11 +30,11 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 
 		if (currentLineText === "") {
-			vscode.window.showInformationMessage("Error: current line is Empty");
+			vscode.window.showErrorMessage("Error: current line is empty");
 		} else if (currentFilePath === "") {
-			vscode.window.showInformationMessage("Error: current filePath is unknown");
+			vscode.window.showErrorMessage("Error: current filePath is unknown");
 		} else {
-			var currentLineTextMatches = currentLineText.match(/\"[\w|\/.]+\"/);
+			var currentLineTextMatches = currentLineText.match(/\"[\w|\/.|\-]+\"/);
 			if (currentLineTextMatches !== null && currentLineTextMatches.length >= 1) {
 				var filepathToOpen = "";
 
@@ -70,9 +70,15 @@ export function activate(context: vscode.ExtensionContext) {
 				vscode.workspace
 					.openTextDocument(filepathToOpen)
 					.then(document => {
-						vscode.window.showTextDocument(document);
-					});
-			}
+                            vscode.window.showTextDocument(document);
+                        }, (err) => {
+                            vscode.window.showErrorMessage("Error: cannot open: " + filepathToOpen);
+                            console.error(err);
+                        }
+                    );
+			} else {
+                vscode.window.showErrorMessage("Error: could not parse path from current line");
+            }
 		}
 		// Display a message box to the user
 
