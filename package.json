@@ -1,7 +1,7 @@
 {
 	"name": "cfml-open-path",
 	"publisher": "Scheifele",
-	"displayName": "cfml_open_path",
+	"displayName": "CFML Open Path",
 	"description": "Open template path of the current cursor position",
 	"repository": "https://github.com/XylianZeref/cfml-open-path",
 	"version": "1.0.1",
