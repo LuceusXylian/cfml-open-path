@@ -35,10 +35,20 @@ export function activate(context: vscode.ExtensionContext) {
 			vscode.window.showErrorMessage("Error: current filePath is unknown");
 		} else {
 			var currentLineTextMatches = currentLineText.match(/\"[\w|\/.|\-]+\"/);
+
+            // retry with '
+			if (currentLineTextMatches === null || currentLineTextMatches.length === 0) {
+                currentLineTextMatches = currentLineText.match(/\'[\w|\/.|\-]+\'/);
+            }
+
 			if (currentLineTextMatches !== null && currentLineTextMatches.length >= 1) {
 				var filepathToOpen = "";
 
-				var currentLineTextMatch = currentLineTextMatches[0].replace('"', '').replace('"', '');
+				var currentLineTextMatch = 
+                    currentLineTextMatches[0]
+                        .replace('"', '').replace('"', '')
+                        .replace("'", '').replace("'", '')
+                ;
 				var currentLineTextMatchSplit = currentLineTextMatch.split("/");
 
 				var goUpCount = 0;
